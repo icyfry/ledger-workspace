@@ -1,0 +1,6 @@
+[submodule "speculos"]
+	path = speculos
+	url = git@github.com:LedgerHQ/speculos.git
+[submodule "ledger-app-builder"]
+	path = ledger-app-builder
+	url = git@github.com:LedgerHQ/ledger-app-builder.git

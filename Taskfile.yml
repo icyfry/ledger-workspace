@@ -1,0 +1,20 @@
+version: '3'
+
+tasks:
+  docker-build:
+    dir: ledger-app-builder
+    cmds:
+      - sudo docker build -t ledger-app-builder:latest .
+  build-app-boilerplate:
+    dir: app-boilerplate
+    cmds:
+      - sudo docker run --rm -ti -v "$(realpath .):/app" ledger-app-builder:latest
+  speculos-make:
+    dir: speculos
+    cmds:
+      - cmake -Bbuild -H.
+      - make -C build/
+  speculos-run:
+    dir: speculos
+    cmds:
+      - ./speculos.py apps/btc.elf
