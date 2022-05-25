@@ -1,14 +1,21 @@
 version: '3'
 
+dotenv: ['.env']
+
 tasks:
   docker-build:
     dir: ledger-app-builder
     cmds:
       - sudo docker build -t ledger-app-builder:latest .
-  build-app-boilerplate:
-    dir: app-boilerplate
+  docker-run:
     cmds:
-      - sudo docker run --rm -ti -v "$(realpath .):/app" ledger-app-builder:latest
+      - cd {{.APP}} && sudo docker run --rm -ti -v "$(realpath .):/app" ledger-app-builder:latest
+  docker-clean-app:
+    cmds:
+      - cd {{.APP}} && sudo docker run --rm -ti -v "$(realpath .):/app" ledger-app-builder:latest rm -rf bin debug dep obj
+  docker-build-app:
+    cmds:
+      - cd {{.APP}} && sudo docker run --rm -ti -v "$(realpath .):/app" ledger-app-builder:latest make
   speculos-make:
     dir: speculos
     cmds:
@@ -17,4 +24,4 @@ tasks:
   speculos-run:
     dir: speculos
     cmds:
-      - ./speculos.py apps/btc.elf
+      - ./speculos.py ../{{.APP}}/bin/app.elf
